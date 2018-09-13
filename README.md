@@ -16,32 +16,24 @@
 
 ## Installation
 
-   ```git clone https://github.com/lkremkow/time-to-fix.git time-to-fix
-   ```
+   `git clone https://github.com/lkremkow/time-to-fix.git time-to-fix`
 
-   ```cd time-to-fix/
-   ```
+   `cd time-to-fix/`
 
-   ```npm install
-   ```
+   `npm install`
 
-   ```meteor run
-   ```
+   `meteor run`
 
 
 ## Re-Installation
 
-```cd time-to-fix/
-```
+   `cd time-to-fix/`
 
-```git fetch --all
-```
+   `git fetch --all`
 
-```git reset --hard origin/master
-```
+   `git reset --hard origin/master`
 
-```git pull origin master
-```
+   `git pull origin master`
 
 
 ## Source
