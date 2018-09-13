@@ -1,0 +1,64 @@
+<div class="container">
+
+  <div *ngIf="current_session_status">
+  <div *ngFor="let session_status of current_session_status | async">
+  <div *ngIf="session_status.status == 'authenticated'">
+    <div class="row mt-3 mb-1">
+      <div class="col-12">You are currently logged in - this means you are able to see statistics for your perimeter.</div>
+    </div>
+
+    <div class="row mt-1 mb-1">
+      <div class="col-12">If you logout you will only be able to see the public statistics until you log in again.</div>
+    </div>
+
+    <div class="row mt-1 mb-1">
+      <div class="col-12">Logout to remove your authenticated session from your browser.</div>
+    </div>
+
+    <div class="row mt-1 mb-3">
+      <div class="col-12">
+        <button class="btn btn-warning" (click)="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="row mt-3 mb-1">
+      <div class="col-12">You are currently logged in - this means you are able to see statistics for your perimeter.</div>
+    </div>
+
+    <div class="row mt-1 mb-1">
+      <div class="col-12">This site stores anonymized summary indicators about your perimeters such that others can compare themselves with you.</div>
+    </div>
+
+    <div class="row mt-1 mb-1">
+      <div class="col-12">You can completely remove this data if you so choose. Others will no longer be able to compare themselves with you and you will no longer be able to consult your own statistics.</div>
+    </div>
+
+    <div class="row mt-1 mb-1">
+      <div class="col-12">Next time you login, this data will again be fetched from Qualys and anonymized summary indicators wil be produced.</div>
+    </div> 
+
+    <div class="row mt-1 mb-3">
+      <div class="col-12">
+        <button class="btn btn-danger" (click)="delete_participant_data()">Delete</button>
+      </div>
+    </div>    
+
+
+
+  </div>
+  <div *ngIf="session_status.status != 'authenticated'">
+    <div class="row mt-3 mb-1">
+      <div class="col-12">You are not currently logged in.</div>
+    </div>
+
+    <div class="row mt-1 mb-1">
+      <div class="col-12">If you'd like to delete your data, please  <a href="#" routerLink="/yp">login</a> first.</div>
+    </div>
+  </div>  
+
+
+
+  </div>
+  </div>
+
+</div>

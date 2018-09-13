@@ -1,0 +1,143 @@
+  <div *ngIf="your_time_to_fix_statistics">
+    <div *ngFor="let one_time_to_fix_statistics of your_time_to_fix_statistics | async">
+
+      <div *ngIf="one_time_to_fix_statistics.client_session_id && one_time_to_fix_statistics.client_user_agent_id">
+
+        <div class="row mt-1 mb-1">
+          <div class="col-2 text-center"><strong>You</strong></div>
+          <div class="col-8 text-left"></div>
+          <div class="col-2 text-center"><strong>Everyone Else</strong></div>
+        </div>
+
+        <div class="row mt-1 mb-1">
+          <div class="col-2 text-center">{{one_time_to_fix_statistics.hosts_in_scope}} hosts</div>
+          <div class="col-8 text-left">Number of hosts analyzed.</div>
+          <div class="col-2 text-center"></div>
+        </div>
+
+        <div class="row mt-1 mb-1">
+          <div class="col-2 text-center">{{one_time_to_fix_statistics.total_vuln_count}} vulns.</div>
+          <div class="col-8 text-left">Number of vulnerabilities analyzed.</div>
+          <div class="col-2 text-center"></div>
+        </div>    
+
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_vulns_per_host == current_global_statistics.avg_vulns_per_host">
+          <div class="col-2 text-center bg-warning">{{one_time_to_fix_statistics.avg_vulns_per_host}} vulns/host</div>
+          <div class="col-8 text-left">Average number of vulnerabilities per host.</div>
+          <div class="col-2 text-center bg-warning">{{current_global_statistics.avg_vulns_per_host}} vulns/host</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_vulns_per_host > current_global_statistics.avg_vulns_per_host">
+          <div class="col-2 text-center bg-danger">{{one_time_to_fix_statistics.avg_vulns_per_host}} vulns/host</div>
+          <div class="col-8 text-left">Average number of vulnerabilities per host.</div>
+          <div class="col-2 text-center bg-success">{{current_global_statistics.avg_vulns_per_host}} vulns/host</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_vulns_per_host < current_global_statistics.avg_vulns_per_host">
+          <div class="col-2 text-center bg-success">{{one_time_to_fix_statistics.avg_vulns_per_host}} vulns/host</div>
+          <div class="col-8 text-left">Average number of vulnerabilities per host.</div>
+          <div class="col-2 text-center bg-danger">{{current_global_statistics.avg_vulns_per_host}} vulns/host</div>
+        </div> 
+
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.percent_fixed == current_global_statistics.percent_fixed">
+          <div class="col-2 text-center bg-warning">{{one_time_to_fix_statistics.percent_fixed}} %</div>
+          <div class="col-8 text-left">Percentage of vulnerabilities fixed.</div>
+          <div class="col-2 text-center bg-warning">{{current_global_statistics.percent_fixed}} %</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.percent_fixed > current_global_statistics.percent_fixed">
+          <div class="col-2 text-center bg-danger">{{one_time_to_fix_statistics.percent_fixed}} %</div>
+          <div class="col-8 text-left">Percentage of vulnerabilities fixed.</div>
+          <div class="col-2 text-center bg-success">{{current_global_statistics.percent_fixed}} %</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.percent_fixed < current_global_statistics.percent_fixed">
+          <div class="col-2 text-center bg-success">{{one_time_to_fix_statistics.percent_fixed}} %</div>
+          <div class="col-8 text-left">Percentage of vulnerabilities fixed.</div>
+          <div class="col-2 text-center bg-danger">{{current_global_statistics.percent_fixed}} %</div>
+        </div>         
+
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_all == current_global_statistics.avg_fix_time_all">
+          <div class="col-2 text-center bg-warning">{{one_time_to_fix_statistics.avg_fix_time_all}} days</div>
+          <div class="col-8 text-left">The average time to fix a vulnerability.</div>
+          <div class="col-2 text-center bg-warning">{{current_global_statistics.avg_fix_time_all}} days</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_all > current_global_statistics.avg_fix_time_all">
+          <div class="col-2 text-center bg-danger">{{one_time_to_fix_statistics.avg_fix_time_all}} days</div>
+          <div class="col-8 text-left">The average time to fix a vulnerability.</div>
+          <div class="col-2 text-center bg-success">{{current_global_statistics.avg_fix_time_all}} days</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_all < current_global_statistics.avg_fix_time_all">
+          <div class="col-2 text-center bg-success">{{one_time_to_fix_statistics.avg_fix_time_all}} days</div>
+          <div class="col-8 text-left">The average time to fix a vulnerability.</div>
+          <div class="col-2 text-center bg-danger">{{current_global_statistics.avg_fix_time_all}} days</div>
+        </div>        
+
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_5 == current_global_statistics.avg_fix_time_red_5">
+          <div class="col-2 text-center bg-warning">{{one_time_to_fix_statistics.avg_fix_time_red_5}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level5.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-warning">{{current_global_statistics.avg_fix_time_red_5}} days</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_5 > current_global_statistics.avg_fix_time_red_5">
+          <div class="col-2 text-center bg-danger">{{one_time_to_fix_statistics.avg_fix_time_red_5}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level5.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-success">{{current_global_statistics.avg_fix_time_red_5}} days</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_5 < current_global_statistics.avg_fix_time_red_5">
+          <div class="col-2 text-center bg-success">{{one_time_to_fix_statistics.avg_fix_time_red_5}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level5.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-danger">{{current_global_statistics.avg_fix_time_red_5}} days</div>
+        </div>
+
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_4 == current_global_statistics.avg_fix_time_red_4">
+          <div class="col-2 text-center bg-warning">{{one_time_to_fix_statistics.avg_fix_time_red_4}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level4.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-warning">{{current_global_statistics.avg_fix_time_red_4}} days</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_4 > current_global_statistics.avg_fix_time_red_4">
+          <div class="col-2 text-center bg-danger">{{one_time_to_fix_statistics.avg_fix_time_red_4}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level4.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-success">{{current_global_statistics.avg_fix_time_red_4}} days</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_4 < current_global_statistics.avg_fix_time_red_4">
+          <div class="col-2 text-center bg-success">{{one_time_to_fix_statistics.avg_fix_time_red_4}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level4.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-danger">{{current_global_statistics.avg_fix_time_red_4}} days</div>
+        </div>       
+
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_3 == current_global_statistics.avg_fix_time_red_3">
+          <div class="col-2 text-center bg-warning">{{one_time_to_fix_statistics.avg_fix_time_red_3}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level3.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-warning">{{current_global_statistics.avg_fix_time_red_3}} days</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_3 > current_global_statistics.avg_fix_time_red_3">
+          <div class="col-2 text-center bg-danger">{{one_time_to_fix_statistics.avg_fix_time_red_3}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level3.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-success">{{current_global_statistics.avg_fix_time_red_3}} days</div>
+        </div>
+        <div class="row mt-1 mb-1" *ngIf="one_time_to_fix_statistics.avg_fix_time_red_3 < current_global_statistics.avg_fix_time_red_3">
+          <div class="col-2 text-center bg-success">{{one_time_to_fix_statistics.avg_fix_time_red_3}} days</div>
+          <div class="col-8 text-left">The average time to fix a <img src="/images/vuln_level3.gif"> vulnerability.</div>
+          <div class="col-2 text-center bg-danger">{{current_global_statistics.avg_fix_time_red_3}} days</div>
+        </div> 
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <!-- <div class="row mt-4 mb-1">
+    <div class="col-12"><h2>Averages in your sector:</h2></div>
+  </div>
+
+  <public-comparison comparison_selector="sector"></public-comparison>
+
+  <div class="row mt-4 mb-1">
+    <div class="col-12"><h2>Averages in your budget range:</h2></div>
+  </div>
+
+  <public-comparison comparison_selector="budget"></public-comparison>
+
+  <div class="row mt-4 mb-1">
+    <div class="col-12"><h2>Averages with comparable heacount:</h2></div>
+  </div>
+
+  <public-comparison comparison_selector="headcount"></public-comparison> -->

@@ -1,0 +1,62 @@
+<div class="container">
+
+  <div class="row mt-2 mb-1">
+    <div class="col-12"><h1>All Public Statistics</h1></div>
+  </div>
+
+  <div *ngIf="current_global_statistics">
+    <div *ngFor="let one_global_statistic of current_global_statistics | async">
+      <div class="row mt-1 mb-1">
+        <div class="col-2 text-center align-middle alert alert-success">{{one_global_statistic.number_of_participants}}</div>
+        <div class="col-10 text-left align-middle">The number of Qualys Vulnerability Managemenet users who have participated in this survey. Learn more about how this site and survey works <a href="#" routerLink="/about">here</a>.</div>
+      </div>
+
+      <div class="row mt-1 mb-1">
+        <div class="col-2 text-center align-middle alert alert-warning">{{one_global_statistic.percent_fixed}}%</div>
+        <div class="col-10 text-left align-middle">The average percentage of vulnerabilities that have been fixed across all perimeters.</div>
+      </div>
+
+      <div class="row mt-1 mb-1">
+        <div class="col-2 text-center align-middle alert alert-danger">{{one_global_statistic.avg_fix_time_all}} days</div>
+        <div class="col-10 text-left align-middle">The average time to fix a vulnarability across all participant perimeters.</div>
+      </div>
+
+      <div class="row mt-1 mb-1">
+        <div class="col-2 text-center">{{one_global_statistic.avg_fix_time_red_5}} days</div>
+        <div class="col-10 text-left">The average time to fix a <img src="/images/vuln_level5.gif"> vulnarability across all participant perimeters.</div>
+      </div>
+
+      <div class="row mt-1 mb-1">
+        <div class="col-2 text-center">{{one_global_statistic.avg_fix_time_red_4}} days</div>
+        <div class="col-10 text-left">The average time to fix a <img src="/images/vuln_level4.gif"> vulnarability across all participant perimeters.</div>
+      </div>
+
+      <div class="row mt-1 mb-1">
+        <div class="col-2 text-center">{{one_global_statistic.avg_fix_time_red_3}} days</div>
+        <div class="col-10 text-left">The average time to fix a <img src="/images/vuln_level3.gif"> vulnarability across all participant perimeters.</div>
+      </div>
+
+    </div>
+
+
+  </div>
+   
+  <!-- <div class="row mt-4 mb-1">
+    <div class="col-12"><h2>Averages per sector:</h2></div>
+  </div>
+
+  <public-comparison comparison_selector="sector"></public-comparison>
+
+  <div class="row mt-4 mb-1">
+    <div class="col-12"><h2>Averages per budget:</h2></div>
+  </div>
+
+  <public-comparison comparison_selector="budget"></public-comparison>
+
+  <div class="row mt-4 mb-1">
+    <div class="col-12"><h2>Averages per heacount:</h2></div>
+  </div>
+
+  <public-comparison comparison_selector="headcount"></public-comparison> -->
+
+</div>

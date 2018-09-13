@@ -1,0 +1,137 @@
+<div class="container"> <!-- begin container -->
+
+<div *ngIf="current_session_status"> <!-- begin if current_session_status -->
+
+  <div *ngFor="let session_status of current_session_status | async">
+
+    <!-- begin show if not logged in -->
+    <div *ngIf="session_status.status == 'anonymous'">
+      <div class="row mt-2 mb-2">
+        <div class="col-6"><h1>Your Perimeter</h1></div>
+        <div class="col-6 text-center alert alert-warning">Before we can show you your statistics, you need to login with your Qualys Vulnerability Management account credentials.</div>
+      </div>
+
+      <!-- begin login -->
+      <login></login>
+      <!-- end login -->
+    </div>
+    <!-- end show if not logged in -->
+
+    <!-- begin show if waiting in -->
+    <div *ngIf="session_status.status == 'pending'">
+      <div class="row mt-2 mb-2">
+        <div class="col-6"><h1>Your Perimeter</h1></div>
+        <div class="col-6 text-center alert alert-info">Please wait while we try to login…</div>
+      </div>
+    </div>
+    <!-- end show if waiting in -->    
+
+    <!-- begin show if logged in -->
+    <div *ngIf="session_status.status == 'authenticated'">
+      <div class="row mt-2 mb-3">
+        <div class="col-4 text-center"><h1>Your Perimeter</h1></div>
+        <div class="col-6 text-center"></div>
+        <div class="col-2 text-center"><small *ngIf="current_download_progress">Download: {{(current_download_progress | async)[0].status}}</small><button class="btn btn-primary" (click)="logout()">Logout</button></div>
+      </div>
+
+      <your-statistics></your-statistics>
+
+      <div class="row mt-2 mb-2">
+        <div class="col-12"><h1>Compared to Others</h1></div>
+      </div>
+      
+      <compare-your-statistics></compare-your-statistics>
+
+    </div>
+
+    <!-- end show if logged in --> 
+
+    <!-- begin show if log in failed -->
+    <div *ngIf="session_status.status == 'fail'">      
+      <div class="row mt-2 mb-2">
+        <div class="col-6"><h1>Your Perimeter</h1></div>
+        <div class="col-6 text-center alert alert-danger">Your username, password, and/or data center URL are incorrect. Please check and try again.</div>
+      </div>
+
+      <!-- begin login -->
+      <login></login>
+      <!-- end login -->
+    </div>
+    <!-- begin show if log in failed -->
+
+  </div>
+    
+</div> <!-- end if current_session_status -->
+</div> <!-- end container -->
+
+<!-- begin show if not logged in -->
+
+
+
+<!--
+<div class="container" *ngIf="server_session_id">
+
+  <div class="row mt-2 mb-1">
+    <div class="col-12"><h1>Your Perimeter - session is set</h1></div>
+  </div>
+
+  <div class="row mt-2 mb-2">
+    <div class="col-12"><strong>59</strong> days is the average time it takes to fix your vulnerabilities</div>
+  </div>
+
+  <div class="row mt-2 mb-2">
+    <div class="col-12"><strong>12</strong> is the average number of vulnerabilities per host in your perimeter</div>
+  </div>
+
+  <div class="row mt-2 mb-2">
+    <div class="col-12"><strong>3.3%</strong> is the average perentage of vulnerabilities that are fixed in your perimeter</div>
+  </div>
+
+  <div class="row mt-2 mb-1">
+    <div class="col-12">Average time to fix per vulnerability severity level in your perimeter:</div>
+  </div>
+  <div class="row mt-1 mb-0">
+    <div class="col-4"><strong>Level 5</strong></div>
+    <div class="col-4"><strong>Level 4</strong></div>
+    <div class="col-4"><strong>Level 3</strong></div>
+  </div>    
+  <div class="row mt-0 mb-0">
+    <div class="col-4">10 days</div>
+    <div class="col-4">30 days</div>
+    <div class="col-4">29 days</div>
+  </div>
+
+  <div class="row mt-2 mb-1">
+    <div class="col-12">
+      <h1>
+        <a data-toggle="collapse" href="#collapseYourProfile" role="button">Your Profile</a>
+      </h1>
+    </div>
+  </div>
+
+  
+
+  <div class="row mt-2 mb-1">
+    <div class="col-12"><h1>Comapred to Others</h1></div>
+  </div>
+
+  <div class="row mt-1 mb-1">
+    <div class="col-12"><strong>In your sector:</strong></div>
+  </div>
+
+  <compared-to-others comparedTo="sector"></compared-to-others>
+
+  <div class="row mt-1 mb-1">
+    <div class="col-12"><strong>With your budget:</strong></div>
+  </div>
+
+  <compared-to-others comparedTo="budget"></compared-to-others>
+
+  <div class="row mt-1 mb-1">
+    <div class="col-12"><strong>With your headcount:</strong></div>
+  </div>
+
+  <compared-to-others comparedTo="headcount"></compared-to-others>
+
+</div>
+-->

@@ -1,0 +1,209 @@
+<div class="container"> <!-- begin container -->
+
+  <div *ngIf="current_session_status"> <!-- begin if current_session_status -->
+  
+    <div *ngFor="let session_status of current_session_status | async">
+  
+      <!-- begin show if not logged in -->
+      <div *ngIf="session_status.status == 'anonymous'">
+        <div class="row mt-2 mb-2">
+          <div class="col-6"><h1>Your Profile</h1></div>
+          <div class="col-6 text-center alert alert-warning">Before we can show you your profile, you need to login with your Qualys Vulnerability Management account credentials.</div>
+        </div>
+  
+        <!-- begin login -->
+        <login></login>
+        <!-- end login -->
+      </div>
+      <!-- end show if not logged in -->
+  
+      <!-- begin show if waiting in -->
+      <div *ngIf="session_status.status == 'pending'">
+        <div class="row mt-2 mb-2">
+          <div class="col-6"><h1>Your Profile</h1></div>
+          <div class="col-6 text-center alert alert-info">Please wait while we try to login…</div>
+        </div>
+      </div>
+      <!-- end show if waiting in -->    
+  
+      <!-- begin show if logged in -->
+      <div *ngIf="session_status.status == 'authenticated'">
+        <div class="row mt-2 mb-3">
+          <div class="col-4 text-center"><h1>Your Profile</h1></div>
+          <div class="col-6 text-center"></div>
+          <div class="col-2 text-center"><small *ngIf="current_download_progress">Download: {{(current_download_progress | async)[0].status}}</small><button class="btn btn-primary" (click)="logout()">Logout</button></div>
+        </div>
+  
+        <!-- <div *ngFor="let the_current_profile of current_profile | async"> -->
+        <div *ngIf="current_profile">
+          <div class="row mt-1 mb-0">
+            <div class="col-12">Name the sector your are in, either by picking from a list of existing sector names, or by writing your own if nothing from the existing list fits.
+            </div>
+          </div>
+        
+          <div class="row mt-0 mb-0">
+            <div class="col-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Set your own custom sector name:</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Set your own sector name…" [(ngModel)]="current_profile.sector">
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mt-0 mb-2">
+            <div class="col-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Pick from a list of existing sector names:</span>
+                </div>
+                <select class="custom-select" [(ngModel)]="current_profile.sector">
+                  <option value="undefined" selected>… or, set your sector from this list</option>
+                  <option *ngFor="let a_valid_sector of valid_sectors | async" value={{a_valid_sector.sector}}>{{a_valid_sector.sector}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mt-2 mb-0">
+            <div class="col-12">The total annual IT budget for your organzation.
+            </div>
+          </div>
+  
+          <div class="row mt-0 mb-1">
+            <div class="col-12">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Your budget:</span>
+                </div>
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="current_profile.budget">
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mt-2 mb-0">
+            <div class="col-12">Headcount referes to the total number of employees in your company.
+            </div>
+          </div>
+  
+          <div class="row mt-0 mb-2">
+            <div class="col-12">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Your headcount:</span>
+                </div>
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="current_profile.headcount">
+              </div>
+            </div>
+          </div>
+        
+
+        <div class="row mt-2 mb-2">
+          <div class="col-12">
+            <button class="btn btn-success" (click)="updateProfile()">Save / Update</button>
+          </div>
+        </div>
+
+      </div>
+
+
+    
+      </div>
+  
+      <!-- end show if logged in --> 
+  
+      <!-- begin show if log in failed -->
+      <div *ngIf="session_status.status == 'fail'">      
+        <div class="row mt-2 mb-2">
+          <div class="col-6"><h1>Your Profile</h1></div>
+          <div class="col-6 text-center alert alert-danger">Your username, password, and/or data center URL are incorrect. Please check and try again.</div>
+        </div>
+  
+        <!-- begin login -->
+        <login></login>
+        <!-- end login -->
+      </div>
+      <!-- begin show if log in failed -->
+  
+    </div>
+      
+  </div> <!-- end if current_session_status -->
+  </div> <!-- end container -->
+
+<!-- <div class="collapse" id="collapseYourProfile">
+
+  <div class="row mt-1 mb-0">
+    <div class="col-12">Name the sector your are in, either by picking from a list of existing sector names, or by writing your own if nothing from the existing list fits.
+    </div>
+  </div>
+
+  <div class="row mt-1 mb-0">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Set your own custom sector name:</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Set your own sector name…" [(ngModel)]="votable_item.title">
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-0 mb-1">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Pick from existing sector names:</span>
+        </div>
+        <select class="custom-select" [(ngModel)]="access_parameters.api_url">
+          <option value="undefined" selected>… or, set your sector from this list</option>
+          <option value="qualysapi.qualys.com">US1: qualysapi.qualys.com</option>
+          <option value="qualysapi.qg2.apps.qualys.com">US2: qualysapi.qg2.apps.qualys.com</option>
+          <option value="qualysapi.qg3.apps.qualys.com">US3: qualysapi.qg3.apps.qualys.com</option>
+          <option value="qualysapi.qualys.eu">EU1: qualysapi.qualys.eu</option>
+          <option value="qualysapi.qg2.apps.qualys.eu">EU2: qualysapi.qg2.apps.qualys.eu</option>
+          <option value="qualysapi.qg1.apps.qualys.in">IN2: qualysapi.qg1.apps.qualys.in</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-1 mb-0">
+    <div class="col-12">The total annual IT budget for your organzation.
+    </div>
+  </div>
+
+  <div class="row mt-1 mb-1">
+    <div class="col-12">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Your budget:</span>
+        </div>
+        <input type="text" class="form-control" placeholder="" [(ngModel)]="votable_item.title">
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-1 mb-0">
+    <div class="col-12">Headcount referes to the total number of employees in your company.
+    </div>
+  </div>
+
+  <div class="row mt-0 mb-1">
+    <div class="col-12">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Your headcount:</span>
+        </div>
+        <input type="text" class="form-control" placeholder="" [(ngModel)]="votable_item.title">
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-1 mb-1">
+    <div class="col-12">
+      <button class="btn btn-success" (click)="saveVotingEvent()">Save</button>
+    </div>
+  </div>
+
+</div> -->

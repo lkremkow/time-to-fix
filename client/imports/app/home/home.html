@@ -1,0 +1,35 @@
+<div class="container">
+
+  <div *ngIf="current_global_statistics">
+    <div *ngFor="let one_global_statistic of current_global_statistics | async">
+      <div class="row mt-3 mb-0">
+        <div class="col-3 text-center align-middle alert alert-success"><h1>{{one_global_statistic.number_of_participants}}</h1></div>
+        <div class="col-9 text-left align-middle lead">The number of Vulnerability Managemenet users who have participated in this survey. Learn more about how this site and survey works <a href="#" routerLink="/about">here</a>.</div>
+      </div>
+
+      <div class="row mt-3 mb-0">
+        <div class="col-3 text-center align-middle alert alert-warning"><h1>{{one_global_statistic.percent_fixed}}%</h1></div>
+        <div class="col-9 text-left align-middle lead">The average percentage of vulnerabilities that have been fixed across all perimeters.</div>
+      </div>
+
+      <div class="row mt-3 mb-0">
+        <div class="col-3 text-center align-middle alert alert-danger"><h1>{{one_global_statistic.avg_fix_time_all}} days</h1></div>
+        <div class="col-9 text-left align-middle lead">The average time to fix a vulnarability across all participant perimeters.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-0">
+    <div class="col-12 text-center align-middle"><strong>See more to calculate and compare the average time needed to fix your vulenrabiltieis.</strong></div>
+  </div>
+
+  <div class="row mt-3 mb-0">
+    <div class="col-6"><a href="#" routerLink="/yp"><strong>Log in</strong></a> to get statistics for your perimeter and compare yourself against your peers.</div>
+    <div class="col-6">Stay anonymous and view <a href="#" routerLink="/ps"><strong>public statistics</strong></a> instead.</div>
+  </div>
+  
+
+
+
+</div>
+

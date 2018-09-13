@@ -1,0 +1,78 @@
+<div class="row mt-1 mb-1">
+  <div class="col-12">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Pick sector to comapre:</span>
+      </div>
+      <select class="custom-select" [(ngModel)]="selected_sector" (ngModelChange)="filterCriteriaChanged($event)">
+        <option value="" selected>All Sectors</option>
+        <option *ngFor="let a_valid_sector of valid_sectors | async" [ngValue]=a_valid_sector.sector>{{a_valid_sector.sector}}</option>
+      </select>
+      </div>
+  </div>
+</div>
+
+<div class="row mt-1 mb-1">
+  <div class="col-12">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Set a budget range:</span>
+      </div>
+      <select class="custom-select" [(ngModel)]="selected_budget_range" (ngModelChange)="filterCriteriaChanged($event)">
+        <option value="" selected>All Budgets</option>
+        <option value="1" selected>999,999€ or less</option>
+        <option value="2" selected>1,000,000€ to 10,000,000€</option>
+        <option value="3" selected>10,000,000€ to 100,000,000€</option>
+        <option value="4" selected>100,000,000€ or more</option>
+      </select>
+      </div>
+  </div>
+</div>
+
+<div class="row mt-1 mb-1">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Set a headcount range:</span>
+        </div>
+        <select class="custom-select" [(ngModel)]="selected_headcount_range" (ngModelChange)="filterCriteriaChanged($event)">
+          <option value="" selected>All Headcounts</option>
+          <option value="1" selected>1,000 or less</option>
+          <option value="2" selected>1,000 to 10,000</option>
+          <option value="3" selected>10,000 to 100,000</option>
+          <option value="4" selected>100,000 or more</option>
+        </select>
+        </div>
+    </div>
+  </div>
+
+<div class="row mt-1 mb-1">
+  <div class="col-2">avg. time to fix (days)</div>
+  <div class="col-2">avg. time to fix level 5's (days)</div>
+  <div class="col-2">avg. time to fix level 4's (days)</div>
+  <div class="col-2">avg. time to fix level 3's (days)</div>
+  <div class="col-2">avg. % fixed</div>
+  <div class="col-2">avg. vulns. p. host</div>
+</div>
+
+<div *ngFor="let one_comparison_statistic of current_comparison_statistics | async">
+
+  <div class="row mt-0 mb-0" *ngIf="one_comparison_statistic.client_session_id && one_comparison_statistic.client_user_agent_id">
+    <div class="col-2 bg-primary text-light">{{one_comparison_statistic.avg_fix_time_all}}</div>
+    <div class="col-2 bg-primary text-light">{{one_comparison_statistic.avg_fix_time_red_5}}</div>
+    <div class="col-2 bg-primary text-light">{{one_comparison_statistic.avg_fix_time_red_4}}</div>
+    <div class="col-2 bg-primary text-light">{{one_comparison_statistic.avg_fix_time_red_3}}</div>
+    <div class="col-2 bg-primary text-light">{{one_comparison_statistic.percent_fixed}}</div>
+    <div class="col-2 bg-primary text-light">{{one_comparison_statistic.avg_vulns_per_host}}</div>
+  </div>
+
+  <div class="row mt-0 mb-0" *ngIf="!one_comparison_statistic.client_session_id && !one_comparison_statistic.client_user_agent_id">
+    <div class="col-2 bg-light text-dark">{{one_comparison_statistic.avg_fix_time_all}}</div>
+    <div class="col-2 bg-light text-dark">{{one_comparison_statistic.avg_fix_time_red_5}}</div>
+    <div class="col-2 bg-light text-dark">{{one_comparison_statistic.avg_fix_time_red_4}}</div>
+    <div class="col-2 bg-light text-dark">{{one_comparison_statistic.avg_fix_time_red_3}}</div>
+    <div class="col-2 bg-light text-dark">{{one_comparison_statistic.percent_fixed}}</div>
+    <div class="col-2 bg-light text-dark">{{one_comparison_statistic.avg_vulns_per_host}}</div>
+  </div>
+  
+</div>

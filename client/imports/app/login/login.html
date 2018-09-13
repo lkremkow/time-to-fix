@@ -1,0 +1,36 @@
+  <div class="row mt-3 mb-3">
+    <div class="col-12">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Qualys login name" aria-label="Qualys login name" [(ngModel)]="api_access_parameters.account_username">
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-3 mb-3">
+    <div class="col-12">
+      <div class="input-group">
+        <input type="password" class="form-control" placeholder="Qualys password" aria-label="Qualys password" [(ngModel)]="api_access_parameters.account_password">
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3">
+    <div class="col-12">
+      <div class="input-group mb-3">
+        <select class="custom-select" [(ngModel)]="api_access_parameters.api_url">
+          <option value="" selected>Choose your Qualys API URL...</option>
+          <option value="qualysapi.qualys.com">US1: qualysapi.qualys.com</option>
+          <option value="qualysapi.qg2.apps.qualys.com">US2: qualysapi.qg2.apps.qualys.com</option>
+          <option value="qualysapi.qg3.apps.qualys.com">US3: qualysapi.qg3.apps.qualys.com</option>
+          <option value="qualysapi.qualys.eu">EU1: qualysapi.qualys.eu</option>
+          <option value="qualysapi.qg2.apps.qualys.eu">EU2: qualysapi.qg2.apps.qualys.eu</option>
+          <option value="qualysapi.qg1.apps.qualys.in">IN2: qualysapi.qg1.apps.qualys.in</option>
+        </select>
+      </div>          
+    </div>
+  </div>
+
+  <div class="row mt-3 mb-3">
+    <div class="col-6 text-center"><button class="btn btn-success" (click)="attempt_login()">login</button></div>
+    <div class="col-6 text-center"><button class="btn btn-warning" (click)="reset_login()">clear</button></div>
+  </div>
