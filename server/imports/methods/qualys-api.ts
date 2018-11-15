@@ -121,8 +121,7 @@ export function authenticate_against_qualys_api(access_parameters_arg: Qualys_AP
   console.log("authenticate_against_qualys_api");
   // console.log("fetch_scan_results called within qualys-api.ts for " + access_parameters_arg.account_username + " on " + access_parameters_arg.api_url + " under pseudo_user_id " + session_token_arg.participant_id);
 
-  let parseXMLToObject = require('xml2js').parseString;
-  let WebRequest = require('request');
+  const WebRequest = require('request');
 
   let apiCallOptions = {
     url: "",
@@ -135,7 +134,10 @@ export function authenticate_against_qualys_api(access_parameters_arg: Qualys_AP
     }
   };
 
-  apiCallOptions.url = "https://" + access_parameters_arg.api_url + "/api/2.0/fo/asset/host/vm/detection/?action=list&show_results=0&output_format=XML&severities=3-5&show_igs=0&status=New,Active,Re-Opened,Fixed&truncation_limit=1";
+  const currentDate: Date = new Date();
+  // remove trailing milliseconds to be compatible with API call
+  const currentISODate: string = currentDate.toISOString().split('.')[0]+"Z";
+  apiCallOptions.url = "https://" + access_parameters_arg.api_url + "/api/2.0/fo/activity_log/?action=list&since_datetime=" + currentISODate;
 
   change_login_status(session_token_arg, 'contacting Qualys API');
 
@@ -151,38 +153,24 @@ export function authenticate_against_qualys_api(access_parameters_arg: Qualys_AP
       // console.log('status code:', response); // Print the response status code if a response was received
       // console.log('webBodyData:', webBodyData);
 
-      // console.log("parsing Qualys API XML data to JavaScript Object: started");
-      parseXMLToObject(webBodyData, Meteor.bindEnvironment( function(parseError, qualysData) {
-        if (parseError) {
-          console.log('parsing Qualys API XML data to JavaScript Object: ERROR; ', parseError);
-          console.log("stopping");
-          console.log("authenticate_against_qualys_api fail");
-          change_login_status(session_token_arg, 'fail');
+      if ( (response.statusCode === 200) && (webBodyData.startsWith('----END_RESPONSE_BODY_CSV')) ) {
+        console.log("authenticate_against_qualys_api success");
+        change_login_status(session_token_arg, 'authenticated');
+        console.log("authenticate_against_qualys_api checking for previous completed download");
+        const a_previous_download_completed: boolean = did_previous_download_complete(session_token_arg);
+        if (a_previous_download_completed) {
+          console.log("previous download completed, starting new one");
+          console.log("purging previous data");
+          Detection_Data.remove( { 'origin' : session_token_arg.participant_id } );
+          Time_To_Fix_Data.remove( { 'participant_id' : session_token_arg.participant_id } );
+          fetch_scan_results(access_parameters_arg, session_token_arg, null);
         } else {
-          // console.log("parsing Qualys API XML data to JavaScript Object complete");
-          if (typeof qualysData['HOST_LIST_VM_DETECTION_OUTPUT'] !== 'undefined') {
-            console.log("authenticate_against_qualys_api success");
-            change_login_status(session_token_arg, 'authenticated');
-
-            console.log("authenticate_against_qualys_api checking for previous completed download");
-            let a_previous_download_completed: boolean = did_previous_download_complete(session_token_arg);
-            if (a_previous_download_completed) {
-              console.log("previous download completed, starting new one");
-              console.log("purgin previous data");
-              Detection_Data.remove( { 'origin' : session_token_arg.participant_id } );
-              Time_To_Fix_Data.remove( { 'participant_id' : session_token_arg.participant_id } );
-              fetch_scan_results(access_parameters_arg, session_token_arg, null);
-            } else {
-              console.log("previous download still running, not starting another one");
-            };
-          } else {
-            console.log("authenticate_against_qualys_api fail");
-            change_login_status(session_token_arg, 'fail');
-          };
-
+          console.log("previous download still running, not starting another one");
         };
-
-      }));
+      } else {
+        console.log("authenticate_against_qualys_api fail");
+        change_login_status(session_token_arg, 'fail');
+      };
 
     };
 
