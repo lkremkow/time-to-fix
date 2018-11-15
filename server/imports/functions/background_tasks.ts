@@ -3,6 +3,9 @@ import { StatisticOfGlobal } from 'imports/models/statistic_of_global';
 import { Time_To_Fix_Data } from 'imports/collections/time_to_fix_data';
 import { Time_To_Fix_Record } from 'imports/models/time_to_fix_record';
 
+create_empty_record();
+
+// every 15 minutes we check if we need to update the global statistics
 setInterval(Meteor.bindEnvironment(update_statistics_global), 900000);
 
 // Meteor.bindEnvironment(function(error, response, webBodyData)
@@ -44,5 +47,25 @@ function update_statistics_global(): void {
 
   StatisticsGlobal.insert(new_global_stat);
 
+};
 
+function create_empty_record(): void {
+  const number_of_global_statistics = StatisticsGlobal.findOne();
+
+  if ((number_of_global_statistics === undefined) || (number_of_global_statistics !== null))
+  {
+    const new_global_stat: StatisticOfGlobal = {
+      avg_fix_time_all: 0,
+      avg_fix_time_red_5 : 0,
+      avg_fix_time_red_4 : 0,
+      avg_fix_time_red_3 : 0,
+      percent_fixed : 0,
+      avg_vulns_per_host : 0,
+      number_of_participants : 0,
+      number_of_visitors : 0,
+      last_updated : new Date()
+    };
+  
+    StatisticsGlobal.insert(new_global_stat);
+  }
 };
