@@ -22,6 +22,8 @@
 
    `npm install`
 
+   `export TTFSALT=<random string>`
+
    `meteor run`
 
 
@@ -44,6 +46,12 @@
 ## Usage
 
    TODO: How to use these scripts.
+
+   Usernames are stored in the database such that mutliple findings of the same perimeter are being considered as 1 and not multiple.
+
+   The usernames are hashed to preudo-anonymize the perimeters and users concerned.
+
+   To prevent looking up the entry data, we use a salt that is stored in the environment variable "TTFSALT".
 
 
 ## Contributing

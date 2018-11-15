@@ -8,12 +8,18 @@ import { Session, SessionToken } from 'imports/models/sessions';
 import { Time_To_Fix_Data } from 'imports/collections/time_to_fix_data';
 
 import { Qualys_API_Access_Parameters } from 'imports/models/qualys_api_access_parameters';
+import { isDefined } from '@angular/compiler/src/util';
 
+const salt: string = readSaltFromShellEnvironment();
 
-// TODO
-// This should be read from a File,
-// which is generated automatically if not present.
-let salt = "";
+function readSaltFromShellEnvironment(): string {
+  if ((isDefined(process.env.TTFSALT)) && (process.env.TTFSALT !== null)) {
+    return process.env.TTFSALT;
+  } else {
+    console.log('WARNING: no salt defined in environment variable TTFSALT');
+    return Math.random().toString(36).substring(2, 15);
+  };  
+};
 
 Meteor.methods({
 
@@ -110,7 +116,7 @@ Meteor.methods({
 
   },
 
-attempt_logout_on_server(session_token_arg: SessionToken) {
+  attempt_logout_on_server(session_token_arg: SessionToken) {
 
     // console.log("logout request for session ›" + session_token_arg.client_session_id + "‹ with user agent id ›" + session_token_arg.client_user_agent_id + "‹");
 
@@ -166,7 +172,7 @@ attempt_logout_on_server(session_token_arg: SessionToken) {
 
   },
 
-delete_participant_data(session_token_arg: SessionToken) {
+  delete_participant_data(session_token_arg: SessionToken) {
 
     // console.log("data deletetion request for session ›" + session_token_arg.client_session_id + "‹ with user agent id ›" + session_token_arg.client_user_agent_id + "‹");
 
