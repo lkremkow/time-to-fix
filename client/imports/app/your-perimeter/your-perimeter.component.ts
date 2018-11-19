@@ -77,7 +77,7 @@ export class YourPerimeter implements OnInit, OnDestroy {
     };
     if (this.download_progress_subscription) {
       this.download_progress_subscription.unsubscribe();
-      // console.log("YourPerimeter unsubscribed from download_progress_subscription");
+      console.log("YourPerimeter unsubscribed from download_progress_subscription");
     };      
   };
 
@@ -93,6 +93,7 @@ export class YourPerimeter implements OnInit, OnDestroy {
   private fetch_download_progress(): void {
     this.download_progress_subscription = MeteorObservable.subscribe('data_import_status', this.session_token).subscribe( () => {
       this.current_download_progress = DataImportStatus.find( {} );
+      console.log("YourPerimeter subscribed to download_progress_subscription");
     });    
   };
 
@@ -105,6 +106,6 @@ export class YourPerimeter implements OnInit, OnDestroy {
         // send this to the visit log
       };
     });
-  };  
+  };
 
 };

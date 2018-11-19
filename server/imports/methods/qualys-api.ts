@@ -163,6 +163,7 @@ export function authenticate_against_qualys_api(access_parameters_arg: Qualys_AP
           console.log("purging previous data");
           Detection_Data.remove( { 'origin' : session_token_arg.participant_id } );
           Time_To_Fix_Data.remove( { 'participant_id' : session_token_arg.participant_id } );
+          update_data_import_state(session_token_arg, 'starting');
           fetch_scan_results(access_parameters_arg, session_token_arg, null);
         } else {
           console.log("previous download still running, not starting another one");
@@ -215,6 +216,7 @@ export function fetch_scan_results(access_parameters_arg: Qualys_API_Access_Para
       change_login_status(session_token_arg, 'fail');
       update_data_import_state(session_token_arg, 'fail');
     } else {
+      update_data_import_state(session_token_arg, 'parsing XML');
       // console.log("requested host detection list from Qualys API received, complete.");
       // console.log('status code:', response); // Print the response status code if a response was received
       // console.log('webBodyData:', webBodyData);
@@ -440,9 +442,6 @@ function update_data_import_state(session_token_arg: SessionToken, state_arg: st
   let existing_data_import_status_record: DataImportState;
   existing_data_import_status_record = DataImportStatus.findOne( { 'participant_id': session_token_arg.participant_id } );
 
-  // console.log("update_time_to_fix_totals called; have this existing_time_to_fix_record");
-  // console.log(existing_time_to_fix_record);
-
   if (( typeof existing_data_import_status_record === 'undefined' ) || ( existing_data_import_status_record === null )) {
     let new_data_import_state_record: DataImportState;
     new_data_import_state_record = {
@@ -453,10 +452,12 @@ function update_data_import_state(session_token_arg: SessionToken, state_arg: st
       started: new Date(),
       last_update: new Date()
     };
+    // console.log("update_data_import_state was called, new record: ", existing_data_import_status_record);
     DataImportStatus.insert( new_data_import_state_record );
   } else {
     existing_data_import_status_record.status = state_arg;
     existing_data_import_status_record.last_update = new Date();
+    // console.log("update_data_import_state was called, updating record: ", existing_data_import_status_record);
     DataImportStatus.update( existing_data_import_status_record._id, { $set: existing_data_import_status_record } );
   };
   
