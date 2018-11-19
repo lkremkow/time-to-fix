@@ -7,6 +7,7 @@
 
    * [Node.js](https://nodejs.org/en/); tested with 8.9.4, 8.11.3 LTS, and 11.1.0.
    * [NPM](https://www.npmjs.com); tested with 5.6.0, 6.1.0, 6.3.0, and 6.4.1.
+   * [Meteor](https://www.meteor.com); tested with 1.6.0 and 1.8.0
 
 
 ## Notes
